@@ -69,7 +69,7 @@ pipeline {
 	              sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ashfaque9x/reddit-clone-pipeline:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table > trivyimage.txt')
                  }
              }
-         }/*
+         }
 	    stage ('Cleanup Artifacts') {
              steps {
                  script {
@@ -77,8 +77,8 @@ pipeline {
                       sh "docker rmi ${IMAGE_NAME}:latest"
                  }
              }
-         }
-	 stage("Trigger CD Pipeline") {
+        }/*
+	    stage("Trigger CD Pipeline") {
             steps {
                 script {
                     sh "curl -v -k --user clouduser:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/Reddit-Clone-CD/buildWithParameters?token=gitops-token'"
